@@ -31,8 +31,10 @@ const EMAIL_REMETENTE = process.env.EMAIL_REMETENTE;
  */
 const EMAIL_NOTIFICACAO = (process.env.EMAIL_NOTIFICACAO ?? "")
   .split(/[,;]/)
-  .map((endereco) => endereco.trim())
-  .filter((endereco) => endereco.includes("@"));
+  // aspas coladas junto do valor no painel viram parte da string e quebrariam
+  // o endereço; espaços e < > de "Nome <a@b.br>" também são descartados
+  .map((endereco) => endereco.trim().replace(/^["'<]+|["'>]+$/g, "").trim())
+  .filter((endereco) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(endereco));
 
 export const emailConfigurado = Boolean(RESEND_API_KEY && EMAIL_REMETENTE);
 
