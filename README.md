@@ -86,7 +86,7 @@ use Settings → Functions → Function Region no painel da Vercel.
 | `SUPABASE_SERVICE_ROLE_KEY` | Não | Service role key, usada apenas no servidor. **Nunca** prefixe com `NEXT_PUBLIC_`. |
 | `RESEND_API_KEY` | Não | Ativa o envio de e-mail. Sem ela, nenhuma mensagem é enviada. |
 | `EMAIL_REMETENTE` | Com Resend | Remetente, ex.: `Inova Salgueiro <contato@inovasalgueiro.com.br>`. |
-| `EMAIL_NOTIFICACAO` | Não | Caixa da governança que recebe o aviso de cada manifestação. |
+| `EMAIL_NOTIFICACAO` | Não | Quem recebe o aviso de cada manifestação. Aceita vários endereços separados por vírgula. |
 
 ### Sem Supabase o site funciona
 
@@ -176,9 +176,17 @@ para não prometer uma mensagem que não saiu.
 Cada manifestação dispara duas mensagens:
 
 1. **confirmação** para quem preencheu, agradecendo e explicando os próximos passos;
-2. **aviso** para `EMAIL_NOTIFICACAO`, com todos os campos preenchidos e o
-   `reply_to` apontando para a pessoa interessada — responder no cliente de
-   e-mail já fala diretamente com ela.
+2. **aviso** para os endereços de `EMAIL_NOTIFICACAO`, com todos os campos
+   preenchidos e o `reply_to` apontando para a pessoa interessada — responder
+   no cliente de e-mail já fala diretamente com ela.
+
+Para avisar várias pessoas da governança, separe os endereços por vírgula:
+
+```
+EMAIL_NOTIFICACAO="fulano@a.br, sicrana@b.br, beltrano@c.br"
+```
+
+Todos vão no mesmo campo `to`, então quem responder fala com o grupo inteiro.
 
 Os envios acontecem em `after()`, depois que a resposta HTTP já saiu: o
 visitante vê a confirmação na hora e uma indisponibilidade do provedor não
@@ -192,6 +200,15 @@ para o e-mail dono da conta.
 
 Trocar de provedor (Brevo, SMTP institucional) significa mexer só na função
 `enviar` de `src/lib/email.ts`; os modelos não mudam.
+
+Para conferir como a confirmação chega numa caixa de entrada real antes de
+publicar mudanças de texto:
+
+```bash
+npm run previa-email -- fulano@exemplo.com sicrana@exemplo.com
+```
+
+O script usa exatamente o modelo de produção e lê as variáveis de `.env.local`.
 
 ## Acessibilidade
 

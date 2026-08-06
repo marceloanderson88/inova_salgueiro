@@ -23,7 +23,16 @@ import type { Interesse } from "./validacoes";
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const RESEND_API_URL = process.env.RESEND_API_URL ?? "https://api.resend.com/emails";
 const EMAIL_REMETENTE = process.env.EMAIL_REMETENTE;
-const EMAIL_NOTIFICACAO = process.env.EMAIL_NOTIFICACAO;
+/**
+ * Aceita vários destinatários separados por vírgula ou ponto e vírgula:
+ *   EMAIL_NOTIFICACAO="a@x.br, b@y.br, c@z.br"
+ * Todos recebem o mesmo aviso, e como vão no mesmo campo "to" conseguem
+ * responder a todos.
+ */
+const EMAIL_NOTIFICACAO = (process.env.EMAIL_NOTIFICACAO ?? "")
+  .split(/[,;]/)
+  .map((endereco) => endereco.trim())
+  .filter((endereco) => endereco.includes("@"));
 
 export const emailConfigurado = Boolean(RESEND_API_KEY && EMAIL_REMETENTE);
 
@@ -70,7 +79,7 @@ function esc(valor: string | null | undefined): string {
 // ---------------------------------------------------------------------------
 
 type Mensagem = {
-  para: string;
+  para: string | string[];
   assunto: string;
   html: string;
   texto: string;
@@ -86,7 +95,7 @@ async function enviar({ para, assunto, html, texto, responderPara }: Mensagem) {
     },
     body: JSON.stringify({
       from: EMAIL_REMETENTE,
-      to: [para],
+      to: Array.isArray(para) ? para : [para],
       subject: assunto,
       html,
       text: texto,
@@ -136,7 +145,7 @@ function linha(rotulo: string, valor: string): string {
 }
 
 /** Confirmação enviada para quem preencheu o formulário. */
-function confirmacao(dados: Interesse): Mensagem {
+function confirmacao(dados: Pick<Interesse, "fullName" | "email">): Mensagem {
   const primeiroNome = dados.fullName.trim().split(/\s+/)[0];
 
   const html = moldura(`
@@ -230,7 +239,7 @@ function notificacao(dados: Interesse, protocolo: string): Mensagem {
   ].join("\n");
 
   return {
-    para: EMAIL_NOTIFICACAO as string,
+    para: EMAIL_NOTIFICACAO,
     assunto: `[Inova] Nova manifestação — ${dados.fullName} (${protocolo})`,
     html,
     texto,
@@ -248,6 +257,27 @@ function notificacao(dados: Interesse, protocolo: string): Mensagem {
  * Nunca lança: uma falha de e-mail não pode invalidar uma manifestação que já
  * foi persistida. As falhas ficam registradas no log da função.
  */
+/**
+ * Envia só o e-mail de confirmação, para conferir o texto e o visual em caixas
+ * de entrada reais antes de mudanças irem ao ar. Usado por `npm run previa-email`.
+ */
+export async function enviarPrevia(
+  destinatarios: string[],
+  nome = "Fulano de Tal",
+): Promise<void> {
+  if (!emailConfigurado) {
+    throw new Error(
+      "Configure RESEND_API_KEY e EMAIL_REMETENTE antes de enviar a prévia.",
+    );
+  }
+
+  for (const destinatario of destinatarios) {
+    const mensagem = confirmacao({ fullName: nome, email: destinatario });
+    await enviar(mensagem);
+    console.log(`enviado para ${destinatario}`);
+  }
+}
+
 export async function enviarEmailsDeInteresse(
   dados: Interesse,
   protocolo: string,
@@ -261,14 +291,14 @@ export async function enviarEmailsDeInteresse(
   }
 
   const mensagens: Mensagem[] = [confirmacao(dados)];
-  if (EMAIL_NOTIFICACAO) mensagens.push(notificacao(dados, protocolo));
+  if (EMAIL_NOTIFICACAO.length > 0) mensagens.push(notificacao(dados, protocolo));
 
   const resultados = await Promise.allSettled(mensagens.map(enviar));
 
   resultados.forEach((resultado, indice) => {
     if (resultado.status === "rejected") {
       console.error(
-        `[inova] Falha ao enviar e-mail para ${mensagens[indice].para} (${protocolo}):`,
+        `[inova] Falha ao enviar e-mail para ${[mensagens[indice].para].flat().join(", ")} (${protocolo}):`,
         resultado.reason,
       );
     }

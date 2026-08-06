@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "previa-email": "tsx --env-file-if-exists=.env.local scripts/previa-email.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
@@ -27,6 +28,7 @@
     "eslint": "^9.18.0",
     "eslint-config-next": "^15.5.22",
     "tailwindcss": "^4.0.0",
+    "tsx": "^4.23.9",
     "typescript": "^5.7.3"
   },
   "overrides": {
