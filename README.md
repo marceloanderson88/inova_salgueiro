@@ -53,7 +53,10 @@ npm run typecheck  # tsc --noEmit
    `NEXT_PUBLIC_SITE_URL` para ele e faça um redeploy — essa variável alimenta
    os metadados canônicos, o `sitemap.xml` e a imagem de Open Graph.
 
-O arquivo `vercel.json` já fixa a região `gru1` (São Paulo) e cabeçalhos de segurança.
+O arquivo `vercel.json` aplica os cabeçalhos de segurança. A região das funções
+**não** é fixada ali de propósito: a chave `regions` é restrita a planos pagos e
+faz o deploy falhar no plano Hobby. Para escolher a região (`gru1`, São Paulo),
+use Settings → Functions → Function Region no painel da Vercel.
 
 ## Variáveis de ambiente
 
