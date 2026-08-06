@@ -18,6 +18,25 @@ Grupos de Trabalho, os desafios do território e recebe manifestações de inter
 Nenhuma imagem externa é carregada: a paisagem do sertão no hero, o logotipo e os elementos
 decorativos são SVG vetoriais gerados no próprio código.
 
+### Versão do Next.js
+
+O projeto está fixado na linha **15.5.x**. A Vercel **bloqueia o deploy** de versões do
+Next.js com CVE aberto — a mensagem aparece já na etapa `Deploying outputs...`, depois de
+o build ter concluído com sucesso:
+
+```
+Vulnerable version of Next.js detected, please update immediately.
+```
+
+Ao atualizar, confira antes com `npm audit` se a versão escolhida está limpa. Manter-se
+na linha 15.5 evita as mudanças de breaking change do 16.
+
+Sobra um aviso de `sharp` (dependência transitiva do próprio Next.js, usada em otimização
+de imagem). Ele não bloqueia o deploy e não tem efeito prático aqui: o site não usa nenhuma
+imagem raster e, na Vercel, a otimização é feita pela infraestrutura da plataforma. Corrigi-lo
+exigiria subir para o Next.js 16. O `postcss` já vem forçado para uma versão corrigida via
+`overrides` no `package.json`.
+
 ## Rodando localmente
 
 ```bash
@@ -31,7 +50,7 @@ Outros comandos:
 ```bash
 npm run build      # build de produção
 npm run start      # serve o build
-npm run lint       # ESLint
+npm run lint       # ESLint CLI (o `next lint` foi deprecado no Next.js 15.5)
 npm run typecheck  # tsc --noEmit
 ```
 
