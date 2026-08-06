@@ -1,6 +1,7 @@
-import { NextResponse } from "next/server";
+import { after, NextResponse } from "next/server";
 
 import { excedeuLimite, salvarInteresse } from "@/lib/armazenamento";
+import { enviarEmailsDeInteresse } from "@/lib/email";
 import { esquemaInteresse } from "@/lib/validacoes";
 
 export const runtime = "nodejs";
@@ -54,6 +55,11 @@ export async function POST(request: Request) {
 
   try {
     const protocol = await salvarInteresse(dados);
+
+    // Os e-mails saem depois da resposta: o visitante vê a confirmação na hora
+    // e uma falha no envio não invalida a manifestação já registrada.
+    after(() => enviarEmailsDeInteresse(dados, protocol));
+
     return NextResponse.json({ success: true, protocol }, { status: 201 });
   } catch (erro) {
     console.error("[inova] Falha ao salvar manifestação de interesse:", erro);

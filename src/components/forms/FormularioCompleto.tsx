@@ -154,9 +154,9 @@ export function FormularioCompleto() {
 
           <Campo
             id="instituicao"
-            rotulo="Organização / instituição"
+            rotulo="Empresa ou instituição"
             erro={errors.institutionName?.message}
-            ajuda="Se você participa como pessoa física, deixe em branco."
+            ajuda="Empresa, startup, instituição de ensino, órgão público ou organização. Se você participa como pessoa física, deixe em branco."
           >
             <input id="instituicao" type="text" className={campo} {...register("institutionName")} />
           </Campo>

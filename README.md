@@ -84,6 +84,9 @@ use Settings → Functions → Function Region no painel da Vercel.
 | `NEXT_PUBLIC_SITE_URL` | Recomendada | URL pública usada em canonical URLs, sitemap e Open Graph. |
 | `SUPABASE_URL` | Não | URL do projeto Supabase. |
 | `SUPABASE_SERVICE_ROLE_KEY` | Não | Service role key, usada apenas no servidor. **Nunca** prefixe com `NEXT_PUBLIC_`. |
+| `RESEND_API_KEY` | Não | Ativa o envio de e-mail. Sem ela, nenhuma mensagem é enviada. |
+| `EMAIL_REMETENTE` | Com Resend | Remetente, ex.: `Inova Salgueiro <contato@inovasalgueiro.org.br>`. |
+| `EMAIL_NOTIFICACAO` | Não | Caixa da governança que recebe o aviso de cada manifestação. |
 
 ### Sem Supabase o site funciona
 
@@ -157,6 +160,29 @@ IP + e-mail a cada 10 minutos. O rate limiting é em memória — em escala,
 troque por Vercel KV ou Upstash.
 
 Links profundos funcionam: `/como-participar?gt=ictis` já marca o GT correspondente.
+
+### E-mail
+
+Cada manifestação dispara duas mensagens:
+
+1. **confirmação** para quem preencheu, com o protocolo e os próximos passos
+   (quem usou o cadastro rápido recebe também o convite para completar);
+2. **aviso** para `EMAIL_NOTIFICACAO`, com todos os campos preenchidos e o
+   `reply_to` apontando para a pessoa interessada — responder no cliente de
+   e-mail já fala diretamente com ela.
+
+Os envios acontecem em `after()`, depois que a resposta HTTP já saiu: o
+visitante vê a confirmação na hora e uma indisponibilidade do provedor não
+invalida um cadastro já registrado. Falhas ficam no log da função.
+
+Para ligar, crie uma API key em <https://resend.com/api-keys> e preencha
+`RESEND_API_KEY` e `EMAIL_REMETENTE` na Vercel. **O domínio do remetente
+precisa estar verificado no Resend.** Para testar antes disso, use
+`Inova Salgueiro <onboarding@resend.dev>` — nesse modo o Resend entrega apenas
+para o e-mail dono da conta.
+
+Trocar de provedor (Brevo, SMTP institucional) significa mexer só na função
+`enviar` de `src/lib/email.ts`; os modelos não mudam.
 
 ## Acessibilidade
 

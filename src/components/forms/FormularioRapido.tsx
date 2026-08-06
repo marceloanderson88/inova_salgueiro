@@ -126,7 +126,7 @@ export function FormularioRapido() {
 
         <Campo
           id="rf-instituicao"
-          rotulo="Instituição"
+          rotulo="Empresa ou instituição"
           erro={errors.institutionName?.message}
           icone={<Building2 size={18} aria-hidden="true" />}
         >
@@ -134,7 +134,7 @@ export function FormularioRapido() {
             id="rf-instituicao"
             type="text"
             autoComplete="organization"
-            placeholder="Instituição"
+            placeholder="Empresa ou instituição"
             className={campoBase}
             {...register("institutionName")}
           />
