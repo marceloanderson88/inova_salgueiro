@@ -147,12 +147,14 @@ Negócios e do quadro de contribuições da mesma modelagem.
 
 ## Formulários
 
-Há dois caminhos de entrada, ambos na mesma rota `POST /api/interesse`:
+Há um único caminho de entrada: o formulário de `/como-participar`, que envia
+para `POST /api/interesse`. Ele reúne todos os campos exigidos pelo SDD —
+GTs de interesse, formas de contribuição, motivação (mínimo de 30 caracteres),
+disponibilidade e os dois aceites obrigatórios (privacidade e regras de
+participação).
 
-- **rápido** — card do hero: nome, instituição, área de interesse e e-mail;
-- **completo** — `/como-participar`: todos os campos exigidos pelo SDD, incluindo
-  GTs de interesse, formas de contribuição, motivação (mínimo de 30 caracteres),
-  disponibilidade e os dois aceites obrigatórios (privacidade e regras de participação).
+Os CTAs espalhados pelo site — hero, cards de GT, seções e header — apontam
+todos para lá, em vez de capturar dados soltos em vários lugares.
 
 Proteções ativas: validação com Zod no cliente e no servidor, campo honeypot
 (responde 200 silencioso para bots) e rate limiting de 5 envios por
@@ -165,8 +167,7 @@ Links profundos funcionam: `/como-participar?gt=ictis` já marca o GT correspond
 
 Cada manifestação dispara duas mensagens:
 
-1. **confirmação** para quem preencheu, com o protocolo e os próximos passos
-   (quem usou o cadastro rápido recebe também o convite para completar);
+1. **confirmação** para quem preencheu, com o protocolo e os próximos passos;
 2. **aviso** para `EMAIL_NOTIFICACAO`, com todos os campos preenchidos e o
    `reply_to` apontando para a pessoa interessada — responder no cliente de
    e-mail já fala diretamente com ela.

@@ -43,20 +43,8 @@ const email = z
   .email("Informe um e-mail válido.")
   .max(160, "E-mail muito longo.");
 
-/** Manifestação rápida — formulário do topo da página inicial. */
-export const esquemaInteresseRapido = z.object({
-  tipo: z.literal("rapido"),
-  fullName: nome,
-  institutionName: z.string().trim().max(160).optional().or(z.literal("")),
-  professionalArea: z.string().trim().min(1, "Selecione uma área de interesse."),
-  email,
-  // honeypot anti-spam: precisa chegar vazio
-  website: z.string().optional(),
-});
-
-/** Manifestação completa — página "Como participar". */
-export const esquemaInteresseCompleto = z.object({
-  tipo: z.literal("completo"),
+/** Manifestação de interesse — formulário da página "Como participar". */
+export const esquemaInteresse = z.object({
   fullName: nome,
   email,
   phone: telefoneBR,
@@ -86,16 +74,10 @@ export const esquemaInteresseCompleto = z.object({
   participationRulesConsent: z.literal(true, {
     errorMap: () => ({ message: "É necessário aceitar as regras de participação." }),
   }),
+  // honeypot anti-spam: o servidor descarta silenciosamente se vier preenchido
   website: z.string().optional(),
 });
 
-export const esquemaInteresse = z.discriminatedUnion("tipo", [
-  esquemaInteresseRapido,
-  esquemaInteresseCompleto,
-]);
-
-export type InteresseRapido = z.infer<typeof esquemaInteresseRapido>;
-export type InteresseCompleto = z.infer<typeof esquemaInteresseCompleto>;
 export type Interesse = z.infer<typeof esquemaInteresse>;
 
 export const esquemaContato = z.object({

@@ -14,10 +14,7 @@ import {
   tiposContribuicao,
   tiposParticipacao,
 } from "@/content/site";
-import {
-  esquemaInteresseCompleto,
-  type InteresseCompleto,
-} from "@/lib/validacoes";
+import { esquemaInteresse, type Interesse } from "@/lib/validacoes";
 
 const campo =
   "w-full rounded-xl border border-borda bg-white px-4 py-3 text-[0.97rem] text-tinta placeholder:text-tinta-suave/70 transition-colors focus:border-verde focus:outline-none";
@@ -33,10 +30,9 @@ export function FormularioCompleto() {
     handleSubmit,
     watch,
     formState: { errors, isSubmitting },
-  } = useForm<InteresseCompleto>({
-    resolver: zodResolver(esquemaInteresseCompleto),
+  } = useForm<Interesse>({
+    resolver: zodResolver(esquemaInteresse),
     defaultValues: {
-      tipo: "completo",
       workingGroupIds: gts.some((gt) => gt.slug === gtPreSelecionado)
         ? [gtPreSelecionado as string]
         : [],
@@ -53,7 +49,7 @@ export function FormularioCompleto() {
       const resposta = await fetch("/api/interesse", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...dados, tipo: "completo" }),
+        body: JSON.stringify(dados),
       });
       const corpo = await resposta.json();
 

@@ -25,41 +25,20 @@ type RegistroInteresse = {
   protocol: string;
   full_name: string;
   email: string;
-  phone: string | null;
-  city: string | null;
-  participation_type: string | null;
+  phone: string;
+  city: string;
+  participation_type: string;
   institution_name: string | null;
   professional_area: string | null;
   contribution_types: string[];
-  motivation: string | null;
-  availability: string | null;
+  motivation: string;
+  availability: string;
   privacy_consent: boolean;
   participation_rules_consent: boolean;
-  origin: "hero" | "completo";
   status: "novo";
 };
 
 function paraRegistro(dados: Interesse, protocolo: string): RegistroInteresse {
-  if (dados.tipo === "rapido") {
-    return {
-      protocol: protocolo,
-      full_name: dados.fullName,
-      email: dados.email,
-      phone: null,
-      city: null,
-      participation_type: null,
-      institution_name: dados.institutionName || null,
-      professional_area: dados.professionalArea,
-      contribution_types: [],
-      motivation: null,
-      availability: null,
-      privacy_consent: true,
-      participation_rules_consent: false,
-      origin: "hero",
-      status: "novo",
-    };
-  }
-
   return {
     protocol: protocolo,
     full_name: dados.fullName,
@@ -74,7 +53,6 @@ function paraRegistro(dados: Interesse, protocolo: string): RegistroInteresse {
     availability: dados.availability,
     privacy_consent: dados.privacyConsent,
     participation_rules_consent: dados.participationRulesConsent,
-    origin: "completo",
     status: "novo",
   };
 }
@@ -106,7 +84,7 @@ export async function salvarInteresse(dados: Interesse): Promise<string> {
   if (!bancoConfigurado) {
     console.info(
       "[inova] Banco não configurado — manifestação registrada apenas em log.",
-      { protocolo, email: registro.email, origem: registro.origin },
+      { protocolo, email: registro.email },
     );
     return protocolo;
   }
@@ -115,13 +93,10 @@ export async function salvarInteresse(dados: Interesse): Promise<string> {
     id: string;
   }[];
 
-  const gtsSelecionados =
-    dados.tipo === "completo" ? dados.workingGroupIds : [];
-
-  if (criado?.id && gtsSelecionados.length > 0) {
+  if (criado?.id && dados.workingGroupIds.length > 0) {
     await chamarSupabase(
       "submission_working_groups",
-      gtsSelecionados.map((slug) => ({
+      dados.workingGroupIds.map((slug) => ({
         submission_id: criado.id,
         working_group_slug: slug,
       })),

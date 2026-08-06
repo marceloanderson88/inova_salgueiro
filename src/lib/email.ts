@@ -135,7 +135,6 @@ function linha(rotulo: string, valor: string): string {
 /** Confirmação enviada para quem preencheu o formulário. */
 function confirmacao(dados: Interesse, protocolo: string): Mensagem {
   const primeiroNome = dados.fullName.trim().split(/\s+/)[0];
-  const completo = dados.tipo === "completo";
 
   const html = moldura(`
     <h1 style="margin:0 0 14px;font-size:22px;line-height:1.3;color:${VERDE_ESCURO};">
@@ -155,15 +154,6 @@ function confirmacao(dados: Interesse, protocolo: string): Mensagem {
       <li>Entramos em contato pelo e-mail ou telefone informado.</li>
       <li>Você é convidado para a reunião de acolhimento do GT escolhido.</li>
     </ol>
-    ${
-      completo
-        ? ""
-        : `<p style="margin:0 0 22px;padding:14px 18px;background:#FFF8EF;border-radius:12px;font-size:14px;line-height:1.65;color:${TINTA};">
-             Você preencheu o cadastro rápido. Para acelerar sua entrada, conte
-             quais Grupos de Trabalho te interessam e como pode contribuir:
-             <a href="${site.url}/como-participar" style="color:${VERDE};font-weight:600;">completar meu cadastro</a>.
-           </p>`
-    }
     <p style="margin:0;font-size:13px;line-height:1.65;color:${TINTA_SUAVE};">
       Guarde este protocolo. Em caso de dúvida, responda a este e-mail.
     </p>
@@ -181,12 +171,8 @@ function confirmacao(dados: Interesse, protocolo: string): Mensagem {
     "2. Entramos em contato pelo e-mail ou telefone informado.",
     "3. Você é convidado para a reunião de acolhimento do GT escolhido.",
     "",
-    completo ? "" : `Complete seu cadastro em ${site.url}/como-participar`,
-    "",
     `Inova Salgueiro — ${site.contato.email}`,
-  ]
-    .filter(Boolean)
-    .join("\n");
+  ].join("\n");
 
   return {
     para: dados.email,
@@ -199,40 +185,30 @@ function confirmacao(dados: Interesse, protocolo: string): Mensagem {
 
 /** Aviso enviado para a governança a cada nova manifestação. */
 function notificacao(dados: Interesse, protocolo: string): Mensagem {
-  const completo = dados.tipo === "completo";
-
   const linhas = [
     linha("Protocolo", esc(protocolo)),
-    linha("Origem", completo ? "Formulário completo" : "Cadastro rápido (home)"),
     linha("Nome", esc(dados.fullName)),
     linha(
       "E-mail",
       `<a href="mailto:${esc(dados.email)}" style="color:${VERDE};">${esc(dados.email)}</a>`,
     ),
+    linha("Telefone", esc(dados.phone)),
     linha("Empresa / instituição", esc(dados.institutionName)),
+    linha("Município", esc(dados.city)),
+    linha("Tipo de participação", esc(rotular(tiposParticipacao, dados.participationType))),
+    linha("Área de atuação", esc(dados.professionalArea)),
+    linha("GTs de interesse", esc(rotularGTs(dados.workingGroupIds))),
+    linha("Formas de contribuição", esc(rotularVarios(tiposContribuicao, dados.contributionTypes))),
+    linha("Disponibilidade", esc(rotular(disponibilidades, dados.availability))),
+    linha("Motivação", esc(dados.motivation).replace(/\n/g, "<br />")),
   ];
-
-  if (completo) {
-    linhas.push(
-      linha("Telefone", esc(dados.phone)),
-      linha("Município", esc(dados.city)),
-      linha("Tipo de participação", esc(rotular(tiposParticipacao, dados.participationType))),
-      linha("Área de atuação", esc(dados.professionalArea)),
-      linha("GTs de interesse", esc(rotularGTs(dados.workingGroupIds))),
-      linha("Formas de contribuição", esc(rotularVarios(tiposContribuicao, dados.contributionTypes))),
-      linha("Disponibilidade", esc(rotular(disponibilidades, dados.availability))),
-      linha("Motivação", esc(dados.motivation).replace(/\n/g, "<br />")),
-    );
-  } else {
-    linhas.push(linha("Área de interesse", esc(dados.professionalArea)));
-  }
 
   const html = moldura(`
     <h1 style="margin:0 0 6px;font-size:20px;line-height:1.3;color:${VERDE_ESCURO};">
       Nova manifestação de interesse
     </h1>
     <p style="margin:0 0 20px;font-size:14px;color:${TINTA_SUAVE};">
-      ${completo ? "Formulário completo" : "Cadastro rápido da página inicial"} · ${esc(protocolo)}
+      ${esc(protocolo)}
     </p>
     <table style="width:100%;border-collapse:collapse;">${linhas.join("")}</table>
     <p style="margin:22px 0 0;font-size:13px;line-height:1.65;color:${TINTA_SUAVE};">
@@ -243,22 +219,17 @@ function notificacao(dados: Interesse, protocolo: string): Mensagem {
   const texto = [
     "Nova manifestação de interesse",
     `Protocolo: ${protocolo}`,
-    `Origem: ${completo ? "formulário completo" : "cadastro rápido"}`,
     `Nome: ${dados.fullName}`,
     `E-mail: ${dados.email}`,
+    `Telefone: ${dados.phone}`,
     `Empresa/instituição: ${dados.institutionName || "—"}`,
-    ...(completo
-      ? [
-          `Telefone: ${dados.phone}`,
-          `Município: ${dados.city}`,
-          `Tipo de participação: ${rotular(tiposParticipacao, dados.participationType)}`,
-          `Área de atuação: ${dados.professionalArea || "—"}`,
-          `GTs de interesse: ${rotularGTs(dados.workingGroupIds)}`,
-          `Formas de contribuição: ${rotularVarios(tiposContribuicao, dados.contributionTypes)}`,
-          `Disponibilidade: ${rotular(disponibilidades, dados.availability)}`,
-          `Motivação: ${dados.motivation}`,
-        ]
-      : [`Área de interesse: ${dados.professionalArea}`]),
+    `Município: ${dados.city}`,
+    `Tipo de participação: ${rotular(tiposParticipacao, dados.participationType)}`,
+    `Área de atuação: ${dados.professionalArea || "—"}`,
+    `GTs de interesse: ${rotularGTs(dados.workingGroupIds)}`,
+    `Formas de contribuição: ${rotularVarios(tiposContribuicao, dados.contributionTypes)}`,
+    `Disponibilidade: ${rotular(disponibilidades, dados.availability)}`,
+    `Motivação: ${dados.motivation}`,
   ].join("\n");
 
   return {
