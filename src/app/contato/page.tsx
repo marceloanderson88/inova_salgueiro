@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import {
+  ClipboardList,
   Instagram,
   Linkedin,
   Mail,
   MapPin,
-  MessageCircle,
-  Phone,
   UserPlus,
   Youtube,
 } from "lucide-react";
@@ -18,7 +17,7 @@ import { site } from "@/content/site";
 export const metadata: Metadata = {
   title: "Contato",
   description:
-    "Fale com a governança do Inova Salgueiro: e-mail, telefone e redes sociais do ecossistema de inovação de Salgueiro.",
+    "Fale com a governança do Inova Salgueiro: e-mail, formulário de participação e redes sociais do ecossistema de inovação de Salgueiro.",
   alternates: { canonical: "/contato" },
 };
 
@@ -31,11 +30,11 @@ const canais = [
     descricao: "Para assuntos institucionais, parcerias e imprensa.",
   },
   {
-    Icone: MessageCircle,
-    titulo: "WhatsApp",
-    valor: site.contato.telefone,
-    href: site.redes.whatsapp,
-    descricao: "Para dúvidas rápidas sobre os GTs e a participação.",
+    Icone: ClipboardList,
+    titulo: "Quero participar",
+    valor: "Formulário de manifestação",
+    href: "/como-participar",
+    descricao: "O caminho para integrar um Grupo de Trabalho, com protocolo de acompanhamento.",
   },
   {
     Icone: MapPin,
@@ -49,7 +48,6 @@ const redes = [
   { href: site.redes.instagram, rotulo: "Instagram", Icone: Instagram },
   { href: site.redes.linkedin, rotulo: "LinkedIn", Icone: Linkedin },
   { href: site.redes.youtube, rotulo: "YouTube", Icone: Youtube },
-  { href: site.redes.whatsapp, rotulo: "WhatsApp", Icone: Phone },
 ];
 
 export default function PaginaContato() {

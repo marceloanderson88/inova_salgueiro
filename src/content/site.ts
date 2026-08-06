@@ -8,15 +8,14 @@ export const site = {
     "Transformar Salgueiro em um polo de inovação que conecta talentos e território, gerando oportunidades e qualidade de vida.",
   contato: {
     email: "contato@inovasalgueiro.com.br",
-    telefone: "(87) 9 9999-9999",
-    telefoneLink: "+5587999999999",
     endereco: "Salgueiro — PE, Brasil",
   },
+  // O WhatsApp foi retirado junto com o telefone: o link wa.me expõe o número
+  // na própria URL, então mantê-lo anularia a decisão de não divulgá-lo.
   redes: {
     instagram: "https://instagram.com/inovasalgueiro",
     linkedin: "https://linkedin.com/company/inovasalgueiro",
     youtube: "https://youtube.com/@inovasalgueiro",
-    whatsapp: "https://wa.me/5587999999999",
   },
 };
 

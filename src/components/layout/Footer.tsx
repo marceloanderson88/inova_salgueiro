@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Instagram, Linkedin, Mail, MapPin, Phone, Youtube } from "lucide-react";
+import { Instagram, Linkedin, Mail, MapPin, Youtube } from "lucide-react";
 
 import { Logo } from "@/components/marca/Logo";
 import { CactoDecorativo, LinhaSerra } from "@/components/ui/decoracoes";
@@ -10,7 +10,6 @@ const redes = [
   { href: site.redes.instagram, rotulo: "Instagram", Icone: Instagram },
   { href: site.redes.linkedin, rotulo: "LinkedIn", Icone: Linkedin },
   { href: site.redes.youtube, rotulo: "YouTube", Icone: Youtube },
-  { href: site.redes.whatsapp, rotulo: "WhatsApp", Icone: Phone },
 ];
 
 export function Footer() {
@@ -82,15 +81,6 @@ export function Footer() {
                 className="link-sublinhado break-all hover:text-verde"
               >
                 {site.contato.email}
-              </a>
-            </li>
-            <li className="flex items-start gap-3">
-              <Phone size={18} className="mt-0.5 shrink-0 text-laranja" aria-hidden="true" />
-              <a
-                href={`tel:${site.contato.telefoneLink}`}
-                className="link-sublinhado hover:text-verde"
-              >
-                {site.contato.telefone}
               </a>
             </li>
             <li className="flex items-start gap-3">
