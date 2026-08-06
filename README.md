@@ -130,6 +130,18 @@ supabase/migrations/
 Para editar textos, GTs ou desafios, mexa apenas em `src/content/` — as páginas
 derivam tudo dali.
 
+### Origem do conteúdo
+
+Objetivos, resultados-chave e atividades dos GTs vêm da **Modelagem do Núcleo de
+Inovação de Salgueiro** (SEBRAE / MEGA Consultores), onde os GTs aparecem como
+"eixos de trabalho" com OKRs pactuados para o 1º semestre de 2026. Ao virar o
+período, atualize `resultadoChave` de cada GT e a constante `periodoOKR` em
+`src/content/gts.ts`.
+
+A segmentação em quádrupla hélice (`segmentos`) e a via de mão dupla
+(`trocaEcossistema`), em `src/content/site.ts`, derivam do Canvas de Modelo de
+Negócios e do quadro de contribuições da mesma modelagem.
+
 ## Formulários
 
 Há dois caminhos de entrada, ambos na mesma rota `POST /api/interesse`:

@@ -85,6 +85,13 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pt-BR" className={`${manrope.variable} ${sourceSans.variable}`}>
+      <head>
+        {/* Sem JS o IntersectionObserver nunca dispara e as seções ficariam
+            presas em opacity: 0. O conteúdo tem de aparecer de qualquer forma. */}
+        <noscript>
+          <style>{`.revelar { opacity: 1 !important; transform: none !important; }`}</style>
+        </noscript>
+      </head>
       <body className="flex min-h-screen flex-col">
         <script
           type="application/ld+json"

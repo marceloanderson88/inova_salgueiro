@@ -42,7 +42,7 @@ export const desafios: Desafio[] = [
       "Existem boas iniciativas acontecendo no território, mas de forma dispersa e sem articulação entre si. Falta um lugar onde elas se encontrem, se somem e ganhem escala.",
     impacto:
       "Resultados fragmentados, baixa continuidade e dificuldade de demonstrar o impacto real da inovação no município.",
-    gts: ["programas-e-acoes", "governanca", "capital-e-fomento"],
+    gts: ["programas-e-acoes", "governanca", "capital"],
   },
   {
     slug: "baixo-engajamento",
@@ -68,7 +68,7 @@ export const desafios: Desafio[] = [
       "A cultura de empreendedorismo inovador ainda é incipiente no território. Negócios e projetos nascem, mas encontram poucos apoios estruturados para amadurecer e permanecer.",
     impacto:
       "Iniciativas promissoras se encerram cedo e o conhecimento acumulado se perde.",
-    gts: ["programas-e-acoes", "capital-e-fomento", "ambientes-de-inovacao"],
+    gts: ["programas-e-acoes", "capital", "ambientes-de-inovacao"],
   },
   {
     slug: "acesso-a-recursos",
@@ -81,7 +81,7 @@ export const desafios: Desafio[] = [
       "Editais e linhas de financiamento existem, mas a informação chega tarde, fragmentada ou não chega. Quem poderia captar recurso frequentemente descobre a oportunidade depois do prazo.",
     impacto:
       "Recursos disponíveis não chegam ao território e projetos ficam sem viabilidade financeira.",
-    gts: ["capital-e-fomento", "politicas-publicas"],
+    gts: ["capital", "politicas-publicas"],
   },
   {
     slug: "informacoes-dispersas",
@@ -107,7 +107,7 @@ export const desafios: Desafio[] = [
       "Jovens qualificados deixam Salgueiro em busca de oportunidades que o território ainda não oferece de forma organizada. O investimento em formação se converte em ganho para outras cidades.",
     impacto:
       "Perda contínua de capital humano e enfraquecimento da capacidade local de inovar.",
-    gts: ["ictis", "programas-e-acoes", "capital-e-fomento"],
+    gts: ["ictis", "programas-e-acoes", "capital"],
   },
   {
     slug: "formacao-e-mercado",

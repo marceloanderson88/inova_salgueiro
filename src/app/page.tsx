@@ -6,6 +6,7 @@ import { SecaoDesafios } from "@/components/home/SecaoDesafios";
 import { SecaoGTs } from "@/components/home/SecaoGTs";
 import { SecaoOQueE } from "@/components/home/SecaoOQueE";
 import { SecaoProposito } from "@/components/home/SecaoProposito";
+import { SecaoQuemParticipa } from "@/components/home/SecaoQuemParticipa";
 
 export default function PaginaInicial() {
   return (
@@ -14,6 +15,7 @@ export default function PaginaInicial() {
       <SecaoOQueE />
       <SecaoProposito />
       <SecaoGTs />
+      <SecaoQuemParticipa />
       <SecaoDesafios />
       <SecaoComoAtuamos />
       <SecaoComoParticipar />

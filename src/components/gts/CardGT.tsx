@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { IconeCirculo } from "@/components/ui/icones";
-import type { GT } from "@/content/gts";
+import { periodoOKR, type GT } from "@/content/gts";
 
 export function CardGT({ gt, tom }: { gt: GT; tom: "verde" | "laranja" }) {
   return (
@@ -18,9 +18,18 @@ export function CardGT({ gt, tom }: { gt: GT; tom: "verde" | "laranja" }) {
 
       <p className="text-[0.97rem] leading-relaxed text-tinta-suave">{gt.resumo}</p>
 
+      <div className="mt-5 rounded-xl bg-verde-suave px-4 py-3.5">
+        <span className="font-display text-[0.68rem] font-bold tracking-[0.13em] text-tinta-suave uppercase">
+          Resultado-chave · {periodoOKR}
+        </span>
+        <p className="mt-1 text-[0.9rem] leading-snug font-semibold text-verde-escuro">
+          {gt.resultadoChave}
+        </p>
+      </div>
+
       <Link
         href={`/gts/${gt.slug}`}
-        className={`mt-6 inline-flex items-center gap-2 font-display text-[0.94rem] font-bold transition-all duration-250 group-hover:gap-3 ${
+        className={`mt-auto pt-6 inline-flex items-center gap-2 font-display text-[0.94rem] font-bold transition-all duration-250 group-hover:gap-3 ${
           tom === "laranja" ? "text-laranja-escuro" : "text-verde"
         }`}
       >

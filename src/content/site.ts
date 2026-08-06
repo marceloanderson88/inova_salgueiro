@@ -115,6 +115,88 @@ export const comoAtuamos = [
   },
 ];
 
+/**
+ * Quádrupla hélice do ecossistema, como aparece no Canvas de Modelo de
+ * Negócios da modelagem do Núcleo (.COM, .EDU, .GOV, .ORG).
+ */
+export const segmentos = [
+  {
+    sigla: ".COM",
+    icone: "briefcase" as const,
+    titulo: "Empresas e startups",
+    texto:
+      "Do pequeno negócio à indústria, passando por startups e empreendedores. Trazem demandas reais, capacidade de execução e conexão com o mercado.",
+    ganhos: [
+      "Acesso a mercados e a conexões estratégicas",
+      "Acesso a laboratórios e infraestrutura do território",
+      "Orientação para investimento e fomento",
+      "Proximidade com talentos em formação",
+    ],
+  },
+  {
+    sigla: ".EDU",
+    icone: "graduation" as const,
+    titulo: "Instituições de ensino e pesquisa",
+    texto:
+      "Escolas técnicas, institutos, faculdades e centros de pesquisa que formam pessoas e produzem conhecimento aplicável ao território.",
+    ganhos: [
+      "Aproximação entre formação e demanda do mercado",
+      "Parcerias para pesquisa aplicada e extensão",
+      "Visibilidade para projetos e competências",
+      "Fórum permanente de líderes de inovação",
+    ],
+  },
+  {
+    sigla: ".GOV",
+    icone: "landmark" as const,
+    titulo: "Poder público",
+    texto:
+      "Prefeitura, órgãos, autarquias e legislativo, responsáveis pelas políticas e pelos instrumentos que sustentam a inovação no município.",
+    ganhos: [
+      "Diagnóstico consolidado do ecossistema",
+      "Propostas de política construídas coletivamente",
+      "Interlocução organizada com o setor produtivo",
+      "Continuidade para além de um ciclo de gestão",
+    ],
+  },
+  {
+    sigla: ".ORG",
+    icone: "users" as const,
+    titulo: "Organizações da sociedade civil",
+    texto:
+      "Associações, cooperativas, entidades de classe e coletivos que dão capilaridade às ações e representam a diversidade do território.",
+    ganhos: [
+      "Capilaridade e acesso às redes do ecossistema",
+      "Planejamento colaborativo com outros setores",
+      "Informações estratégicas sobre o território",
+      "Apoio na captação e na elaboração de projetos",
+    ],
+  },
+];
+
+/**
+ * Via de mão dupla entre o Núcleo e o ecossistema, conforme registrado na
+ * modelagem: o que cada parte traz e o que cada parte recebe.
+ */
+export const trocaEcossistema = {
+  traz: [
+    "Demandas reais por soluções",
+    "Engajamento nas ações do Núcleo",
+    "Proatividade e mentalidade colaborativa",
+    "Recursos e infraestrutura",
+    "Conexões estratégicas",
+    "Disponibilidade de tempo",
+  ],
+  recebe: [
+    "Conexões estratégicas e acesso a mercados",
+    "Acesso a infraestruturas do território",
+    "Informações e competências técnicas",
+    "Promoção da formação empreendedora",
+    "Orientação para investimento e fomento",
+    "Planejamentos colaborativos e capilaridade nas redes",
+  ],
+};
+
 export const avisoInstitucional =
   "O Inova Salgueiro atua como articulador do ecossistema. As ações e programas podem ser executados por instituições parceiras, empresas, organizações sociais, órgãos públicos e integrantes dos GTs.";
 

@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowRight, CalendarDays, Check, Info, Target, UserPlus } from "lucide-react";
+import { ArrowRight, CalendarDays, Flag, Info, Target, UserPlus } from "lucide-react";
 
 import { CabecalhoPagina } from "@/components/layout/CabecalhoPagina";
 import { BotaoLink } from "@/components/ui/botao";
 import { IconeCirculo } from "@/components/ui/icones";
 import { Revelar } from "@/components/ui/revelar";
 import { getDesafio } from "@/content/desafios";
-import { getGT, gts } from "@/content/gts";
+import { getGT, gts, periodoOKR } from "@/content/gts";
 import { site } from "@/content/site";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -86,6 +86,23 @@ export default async function PaginaGT({ params }: Props) {
                   </p>
                 </div>
               </div>
+
+              <div className="mt-4 flex items-start gap-5 rounded-2xl border border-laranja/25 bg-laranja-suave p-6 lg:p-7">
+                <span
+                  className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white text-laranja-escuro ring-8 ring-white/60"
+                  aria-hidden="true"
+                >
+                  <Flag size={26} strokeWidth={1.7} />
+                </span>
+                <div>
+                  <h2 className="font-display text-[0.78rem] font-bold tracking-[0.14em] text-laranja-escuro uppercase">
+                    Resultado-chave — {periodoOKR}
+                  </h2>
+                  <p className="mt-2 text-[1.06rem] leading-relaxed font-semibold text-verde-escuro">
+                    {gt.resultadoChave}
+                  </p>
+                </div>
+              </div>
             </section>
           </Revelar>
 
@@ -133,26 +150,32 @@ export default async function PaginaGT({ params }: Props) {
           </Revelar>
 
           <Revelar atraso={140}>
-            <section className="mt-12" aria-labelledby="entregas">
-              <h2 id="entregas" className="text-[1.4rem] text-verde-escuro sm:text-[1.7rem]">
-                Entregas previstas
+            <section className="mt-12" aria-labelledby="atividades">
+              <h2 id="atividades" className="text-[1.4rem] text-verde-escuro sm:text-[1.7rem]">
+                Plano de trabalho
               </h2>
-              <ul className="mt-5 space-y-3">
-                {gt.entregas.map((entrega) => (
-                  <li key={entrega} className="flex items-start gap-3">
+              <p className="mt-3 text-[0.98rem] leading-relaxed text-tinta-suave">
+                As atividades-chave que levam o grupo ao resultado pactuado para
+                o {periodoOKR}.
+              </p>
+              <ol className="mt-6 space-y-3">
+                {gt.atividades.map((atividade, indice) => (
+                  <li key={atividade} className="flex items-start gap-4">
                     <span
-                      className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-verde-claro text-verde"
+                      className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-verde-claro font-display text-[0.82rem] font-extrabold text-verde"
                       aria-hidden="true"
                     >
-                      <Check size={14} strokeWidth={3} />
+                      {indice + 1}
                     </span>
-                    <span className="text-[0.99rem] leading-relaxed text-tinta">{entrega}</span>
+                    <span className="mt-0.5 text-[0.99rem] leading-relaxed text-tinta">
+                      {atividade}
+                    </span>
                   </li>
                 ))}
-              </ul>
-              <p className="mt-5 text-[0.88rem] text-tinta-suave italic">
-                As entregas realizadas serão publicadas nesta página conforme
-                forem concluídas pelo grupo.
+              </ol>
+              <p className="mt-6 text-[0.88rem] text-tinta-suave italic">
+                O andamento das atividades será publicado nesta página conforme
+                o grupo avançar.
               </p>
             </section>
           </Revelar>

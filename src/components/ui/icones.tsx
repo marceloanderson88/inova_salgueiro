@@ -1,5 +1,6 @@
 import {
   BookOpen,
+  Briefcase,
   Building2,
   ClipboardList,
   Coins,
@@ -41,6 +42,7 @@ const mapa = {
   book: BookOpen,
   user: UserRound,
   form: ClipboardList,
+  briefcase: Briefcase,
 } satisfies Record<string, LucideIcon>;
 
 export type NomeIcone = keyof typeof mapa;

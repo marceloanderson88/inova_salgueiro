@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { Info } from "lucide-react";
+import { Check, Gift, HandHeart, Info } from "lucide-react";
 
 import { FormularioCompleto } from "@/components/forms/FormularioCompleto";
 import { CabecalhoPagina } from "@/components/layout/CabecalhoPagina";
 import { Icone } from "@/components/ui/icones";
 import { Revelar } from "@/components/ui/revelar";
-import { passosParticipacao, regrasParticipacao } from "@/content/site";
+import {
+  passosParticipacao,
+  regrasParticipacao,
+  trocaEcossistema,
+} from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Como participar",
@@ -111,6 +115,75 @@ export default function PaginaComoParticipar() {
               </Revelar>
             ))}
           </ul>
+        </div>
+      </section>
+
+      {/* Via de mão dupla */}
+      <section className="py-16 lg:py-20" aria-labelledby="troca">
+        <div className="container-inova">
+          <Revelar>
+            <h2 id="troca" className="text-[1.6rem] text-verde-escuro sm:text-[2rem]">
+              Uma via de mão dupla
+            </h2>
+            <p className="mt-4 max-w-2xl text-[1.01rem] leading-relaxed text-tinta-suave">
+              Participar não é doar tempo a fundo perdido. A modelagem do Núcleo
+              registrou o que o ecossistema traz e o que recebe de volta — vale
+              tanto para uma pessoa quanto para uma empresa, uma instituição de
+              ensino, um órgão público ou uma organização da sociedade civil.
+            </p>
+          </Revelar>
+
+          <div className="mt-10 grid gap-5 lg:grid-cols-2">
+            <Revelar>
+              <article className="h-full rounded-2xl border border-borda bg-white p-7 shadow-card">
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-laranja-claro text-laranja-escuro">
+                  <HandHeart size={24} strokeWidth={1.8} aria-hidden="true" />
+                </span>
+                <h3 className="mt-5 font-display text-[1.2rem] font-extrabold text-verde-escuro">
+                  O que você traz
+                </h3>
+                <ul className="mt-4 space-y-2.5">
+                  {trocaEcossistema.traz.map((item) => (
+                    <li key={item} className="flex items-start gap-3">
+                      <span
+                        className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-laranja"
+                        aria-hidden="true"
+                      />
+                      <span className="text-[0.97rem] leading-relaxed text-tinta">
+                        {item}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            </Revelar>
+
+            <Revelar atraso={100}>
+              <article className="h-full rounded-2xl border border-verde/20 bg-verde-claro p-7">
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white text-verde">
+                  <Gift size={24} strokeWidth={1.8} aria-hidden="true" />
+                </span>
+                <h3 className="mt-5 font-display text-[1.2rem] font-extrabold text-verde-escuro">
+                  O que você encontra
+                </h3>
+                <ul className="mt-4 space-y-2.5">
+                  {trocaEcossistema.recebe.map((item) => (
+                    <li key={item} className="flex items-start gap-3">
+                      <span
+                        className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-verde text-white"
+                        aria-hidden="true"
+                      >
+                        <Check size={12} strokeWidth={3.2} />
+                      </span>
+                      <span className="text-[0.97rem] leading-relaxed text-tinta">
+                        {item}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            </Revelar>
+          </div>
         </div>
       </section>
 

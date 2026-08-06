@@ -183,5 +183,5 @@ values
   ('GT Ambientes de Inovação', 'ambientes-de-inovacao', 'Conecta laboratórios, coworkings, incubadoras e espaços makers do território.', 3),
   ('GT ICTIs', 'ictis', 'Integra as instituições científicas, tecnológicas e de inovação do território.', 4),
   ('GT Políticas Públicas', 'politicas-publicas', 'Propõe políticas para o desenvolvimento da inovação e acompanha sua implementação.', 5),
-  ('GT Capital e Fomento', 'capital-e-fomento', 'Prospecta editais, parcerias e investimento para viabilizar as iniciativas.', 6)
+  ('GT Capital', 'capital', 'Estrutura a central de fomento e amplia o acesso a investimento no território.', 6)
 on conflict (slug) do nothing;
