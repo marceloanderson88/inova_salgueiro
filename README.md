@@ -91,7 +91,7 @@ use Settings → Functions → Function Region no painel da Vercel.
 ### Sem Supabase o site funciona
 
 Se as variáveis do Supabase não estiverem definidas, a rota `POST /api/interesse`
-continua validando os dados, aplicando rate limiting, gerando o protocolo e devolvendo
+continua validando os dados, aplicando rate limiting e devolvendo
 a confirmação ao visitante — o registro fica no log do servidor
 (Vercel → Deployments → Functions → Logs). Isso permite publicar o site antes de o
 banco existir, sem perder nenhuma manifestação de vista.
@@ -163,11 +163,19 @@ troque por Vercel KV ou Upstash.
 
 Links profundos funcionam: `/como-participar?gt=ictis` já marca o GT correspondente.
 
+Cada manifestação recebe um protocolo (`IS-2026-000000`), mas ele **não é
+mostrado ao visitante**: serve como referência interna da governança, no assunto
+do e-mail de aviso e nos logs.
+
+A página `/obrigado` só afirma que um e-mail foi enviado quando o Resend está
+configurado — sem as variáveis ela diz apenas que a manifestação foi registrada,
+para não prometer uma mensagem que não saiu.
+
 ### E-mail
 
 Cada manifestação dispara duas mensagens:
 
-1. **confirmação** para quem preencheu, com o protocolo e os próximos passos;
+1. **confirmação** para quem preencheu, agradecendo e explicando os próximos passos;
 2. **aviso** para `EMAIL_NOTIFICACAO`, com todos os campos preenchidos e o
    `reply_to` apontando para a pessoa interessada — responder no cliente de
    e-mail já fala diretamente com ela.

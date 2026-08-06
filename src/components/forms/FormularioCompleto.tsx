@@ -58,7 +58,7 @@ export function FormularioCompleto() {
         return;
       }
 
-      router.push(`/obrigado?protocolo=${encodeURIComponent(corpo.protocol)}`);
+      router.push("/obrigado");
     } catch {
       setErroGeral("Falha de conexão. Verifique sua internet e tente novamente.");
     }

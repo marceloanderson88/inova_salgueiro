@@ -14,7 +14,10 @@ import type { Interesse } from "./validacoes";
  * Usa a API HTTP do Resend via fetch — sem SDK, para não crescer o bundle da
  * função serverless. Se as variáveis não estiverem configuradas, as funções
  * viram no-op: a manifestação continua sendo salva e o visitante continua
- * recebendo o protocolo na tela. E-mail nunca derruba um cadastro.
+ * vendo a confirmação na tela. E-mail nunca derruba um cadastro.
+ *
+ * O protocolo não é mostrado ao visitante — ele serve como referência interna
+ * da governança, no assunto do aviso e nos logs.
  */
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
@@ -133,7 +136,7 @@ function linha(rotulo: string, valor: string): string {
 }
 
 /** Confirmação enviada para quem preencheu o formulário. */
-function confirmacao(dados: Interesse, protocolo: string): Mensagem {
+function confirmacao(dados: Interesse): Mensagem {
   const primeiroNome = dados.fullName.trim().split(/\s+/)[0];
 
   const html = moldura(`
@@ -144,18 +147,14 @@ function confirmacao(dados: Interesse, protocolo: string): Mensagem {
       Obrigado por querer construir Salgueiro com a gente. Sua manifestação foi
       registrada e será analisada pela governança do Inova Salgueiro.
     </p>
-    <div style="margin:0 0 22px;padding:16px 20px;background:#EAF5EE;border-radius:12px;text-align:center;">
-      <div style="font-size:11px;letter-spacing:1.4px;text-transform:uppercase;font-weight:700;color:${TINTA_SUAVE};">Seu protocolo</div>
-      <div style="margin-top:4px;font-size:22px;font-weight:800;letter-spacing:-0.5px;color:${VERDE};">${esc(protocolo)}</div>
-    </div>
-    <h2 style="margin:0 0 10px;font-size:16px;color:${VERDE_ESCURO};">Próximos passos</h2>
+    <h2 style="margin:0 0 10px;font-size:16px;color:${VERDE_ESCURO};">O que acontece agora</h2>
     <ol style="margin:0 0 22px;padding-left:20px;font-size:14px;line-height:1.75;color:${TINTA_SUAVE};">
       <li>A governança analisa sua manifestação.</li>
-      <li>Entramos em contato pelo e-mail ou telefone informado.</li>
+      <li>Entramos em contato pelo e-mail informado.</li>
       <li>Você é convidado para a reunião de acolhimento do GT escolhido.</li>
     </ol>
     <p style="margin:0;font-size:13px;line-height:1.65;color:${TINTA_SUAVE};">
-      Guarde este protocolo. Em caso de dúvida, responda a este e-mail.
+      Em caso de dúvida, é só responder a este e-mail.
     </p>
   `);
 
@@ -164,11 +163,9 @@ function confirmacao(dados: Interesse, protocolo: string): Mensagem {
     "",
     "Sua manifestação foi registrada e será analisada pela governança do Inova Salgueiro.",
     "",
-    `Protocolo: ${protocolo}`,
-    "",
-    "Próximos passos:",
+    "O que acontece agora:",
     "1. A governança analisa sua manifestação.",
-    "2. Entramos em contato pelo e-mail ou telefone informado.",
+    "2. Entramos em contato pelo e-mail informado.",
     "3. Você é convidado para a reunião de acolhimento do GT escolhido.",
     "",
     `Inova Salgueiro — ${site.contato.email}`,
@@ -176,7 +173,7 @@ function confirmacao(dados: Interesse, protocolo: string): Mensagem {
 
   return {
     para: dados.email,
-    assunto: `Recebemos seu interesse — protocolo ${protocolo}`,
+    assunto: "Recebemos seu interesse no Inova Salgueiro",
     html,
     texto,
     responderPara: site.contato.email,
@@ -263,7 +260,7 @@ export async function enviarEmailsDeInteresse(
     return;
   }
 
-  const mensagens: Mensagem[] = [confirmacao(dados, protocolo)];
+  const mensagens: Mensagem[] = [confirmacao(dados)];
   if (EMAIL_NOTIFICACAO) mensagens.push(notificacao(dados, protocolo));
 
   const resultados = await Promise.allSettled(mensagens.map(enviar));

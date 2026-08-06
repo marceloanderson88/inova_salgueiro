@@ -40,7 +40,7 @@ export async function POST(request: Request) {
 
   // Honeypot preenchido = bot. Responde 200 para não revelar a proteção.
   if (dados.website) {
-    return NextResponse.json({ success: true, protocol: "IS-0000-000000" });
+    return NextResponse.json({ success: true });
   }
 
   if (excedeuLimite(`${identificar(request)}|${dados.email}`)) {
@@ -54,13 +54,15 @@ export async function POST(request: Request) {
   }
 
   try {
-    const protocol = await salvarInteresse(dados);
+    const protocolo = await salvarInteresse(dados);
 
     // Os e-mails saem depois da resposta: o visitante vê a confirmação na hora
     // e uma falha no envio não invalida a manifestação já registrada.
-    after(() => enviarEmailsDeInteresse(dados, protocol));
+    after(() => enviarEmailsDeInteresse(dados, protocolo));
 
-    return NextResponse.json({ success: true, protocol }, { status: 201 });
+    // O protocolo fica só do lado do servidor — é referência da governança,
+    // não algo que o visitante precise guardar.
+    return NextResponse.json({ success: true }, { status: 201 });
   } catch (erro) {
     console.error("[inova] Falha ao salvar manifestação de interesse:", erro);
     return NextResponse.json(
