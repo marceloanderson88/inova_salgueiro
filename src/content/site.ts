@@ -3,11 +3,11 @@ export const site = {
   titulo: "Inova Salgueiro — Ecossistema de Inovação de Salgueiro",
   descricao:
     "Conheça o Inova Salgueiro, seus Grupos de Trabalho, desafios e formas de participação no ecossistema local de inovação.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://inovasalgueiro.org.br",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://inovasalgueiro.com.br",
   proposito:
     "Transformar Salgueiro em um polo de inovação que conecta talentos e território, gerando oportunidades e qualidade de vida.",
   contato: {
-    email: "contato@inovasalgueiro.org.br",
+    email: "contato@inovasalgueiro.com.br",
     telefone: "(87) 9 9999-9999",
     telefoneLink: "+5587999999999",
     endereco: "Salgueiro — PE, Brasil",

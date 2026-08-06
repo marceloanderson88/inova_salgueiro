@@ -85,7 +85,7 @@ use Settings → Functions → Function Region no painel da Vercel.
 | `SUPABASE_URL` | Não | URL do projeto Supabase. |
 | `SUPABASE_SERVICE_ROLE_KEY` | Não | Service role key, usada apenas no servidor. **Nunca** prefixe com `NEXT_PUBLIC_`. |
 | `RESEND_API_KEY` | Não | Ativa o envio de e-mail. Sem ela, nenhuma mensagem é enviada. |
-| `EMAIL_REMETENTE` | Com Resend | Remetente, ex.: `Inova Salgueiro <contato@inovasalgueiro.org.br>`. |
+| `EMAIL_REMETENTE` | Com Resend | Remetente, ex.: `Inova Salgueiro <contato@inovasalgueiro.com.br>`. |
 | `EMAIL_NOTIFICACAO` | Não | Caixa da governança que recebe o aviso de cada manifestação. |
 
 ### Sem Supabase o site funciona
